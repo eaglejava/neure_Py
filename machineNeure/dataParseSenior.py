@@ -1,9 +1,8 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-#import matplotlib.colors as Listed
 import numpy as np
 from matplotlib.colors import ListedColormap
-from machineNeure.Perceptron import Perceptron
+from machineNeure.AdalineGD import AdalineGD
 
 file = "iris.csv";
 
@@ -18,14 +17,14 @@ x = df.loc[0:100,[0,2]].values;
 
 plt.scatter(x[:50,0],x[:50,1],color='red',marker='o',label='setosa');
 plt.scatter(x[50:100,0],x[50:100,1],color='blue',marker='x',label='versicolor');
-plt.xlabel('xxxx');
-plt.ylabel('yyyy');
-plt.legend(loc = 'upper left');
+# plt.xlabel('xxxx');
+# plt.ylabel('yyyy');
+# plt.legend(loc = 'upper left');
 #plt.show();
 
-ppn = Perceptron(eta=0.1,n_iter=10);
-ppn.fit(x, y);
-plt.plot(range(1,len(ppn.errors)+1),ppn.errors,marker='o');
+ada = AdalineGD(eta=0.0001,n_iter=50);
+ada.fit(x, y);
+# plt.plot(range(1,len(ada.cost_)+1),ada.cost_,marker='o');
 # plt.xlabel('Epochs');
 # plt.ylabel('错误分类次数');
 # plt.show();
@@ -51,8 +50,15 @@ def plot_decision_regins(x,y,classifie,resolution=0.02):
     for idx,c1 in enumerate(np.unique(y)):
         plt.scatter(x=x[y==c1,0], y=x[y==c1,1], alpha=0.8, c=cmap(idx), marker=marker[idx], label=c1);
  
-plot_decision_regins(x, y, ppn, resolution=0.02); 
-# plt.xlabel('xxxx');
-# plt.ylabel('yyyy');
-# plt.legend(loc = 'upper left');
-plt.show(); 
+plot_decision_regins(x, y, classifie=ada); 
+plt.xlabel('xxxx');
+plt.ylabel('yyyy');
+plt.legend(loc = 'upper left');
+plt.show();
+
+plt.plot(range(1,len(ada.cost_)+1),ada.cost_,marker='o');
+plt.xlabel('Epochs');
+plt.ylabel('sum-squard-error');
+plt.show();
+
+
